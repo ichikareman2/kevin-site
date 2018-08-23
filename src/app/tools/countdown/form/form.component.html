@@ -1,0 +1,7 @@
+<form [formGroup]="form">
+  <div *ngIf="form.invalid" style="color:red;">form invalid</div>
+  <input type="text" formControlName="hours">
+  <input type="text" formControlName="minutes">
+  <input type="text" formControlName="seconds">
+  <button type="button">Start</button>
+</form>
