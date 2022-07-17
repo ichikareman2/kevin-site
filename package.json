@@ -1,0 +1,22 @@
+{
+  "name": "kevin-site",
+  "version": "1.0.0",
+  "description": "",
+  "source": "src/index.html",
+  "browserlist": "> 0.5%, last 2 versions, not dead",
+  "scripts": {
+    "serve": "parcel"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.6.2",
+    "@riotjs/compiler": "^6.3.0",
+    "@riotjs/parcel-transformer-riot": "^7.0.4",
+    "parcel": "^2.6.2"
+  },
+  "dependencies": {
+    "@parcel/config-default": "^2.6.2",
+    "@riotjs/hot-reload": "^6.0.0"
+  }
+}
