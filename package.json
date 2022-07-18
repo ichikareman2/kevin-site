@@ -13,10 +13,13 @@
     "@parcel/transformer-sass": "^2.6.2",
     "@riotjs/compiler": "^6.3.0",
     "@riotjs/parcel-transformer-riot": "^7.0.4",
-    "parcel": "^2.6.2"
+    "parcel": "^2.6.2",
+    "postcss": "^8.4.14",
+    "tailwindcss": "^3.1.6"
   },
   "dependencies": {
     "@parcel/config-default": "^2.6.2",
-    "@riotjs/hot-reload": "^6.0.0"
+    "@riotjs/hot-reload": "^6.0.0",
+    "fp-ts": "^2.12.1"
   }
 }
