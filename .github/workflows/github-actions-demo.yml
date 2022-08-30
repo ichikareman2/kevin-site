@@ -46,7 +46,11 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: gitpage
-      ## merge with master
+      # reset to main
+      - name: Reset to `main`
+        run: |
+          git fetch
+          git reset --hard origin/main
       # remove all files
       - name: Remove all files
         run: rm * -r
