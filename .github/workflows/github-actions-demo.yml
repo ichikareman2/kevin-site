@@ -19,20 +19,49 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # checkout
-      - name: Checkout
+      - name: Checkout `main`
         uses: actions/checkout@v3
       # setup node
       - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      # 
+          cache: 'npm'
+      # Install & build
       - name: install
         run: |
           npm i
           npm run build
+      # Print files (to delete)
       - name: Print files
         run: ls ${{ github.workspace }}
+      # upload artifact
+      - name: Upload build files
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-files
+          path: dist/*
+      # checkout `gitpage` branch
+      - name: Checkout `gitpage`
+        uses: actions/checkout@v3
+        with:
+          ref: gitpage
+      ## merge with master
+      # remove all files
+      - name: Remove all files
+        run: rm * -r
+      # paste artifact
+      - name: Download build files
+        uses: actions/download-artifact@v3
+        with:
+          name: build-files
+      # push
+      - name: Push to `gitpage`
+        run: |
+          git config user.name 'Kevin Quing'
+          git config user.email 'willardquing@gmail.com'
+          git commit -am "`gitpage` update"
+          git push
 #       # Runs a single command using the runners shell
 #       - name: Run a one-line script
 #         run: echo Hello, world!
