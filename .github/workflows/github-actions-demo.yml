@@ -53,7 +53,7 @@ jobs:
           git reset --hard origin/main
       # remove all files
       - name: Remove all files
-        run: rm * -r
+        run: rm -r *
       # paste artifact
       - name: Download build files
         uses: actions/download-artifact@v3
@@ -64,6 +64,7 @@ jobs:
         run: |
           git config user.name 'Kevin Quing'
           git config user.email 'willardquing@gmail.com'
+          git add .
           git commit -am "`gitpage` update"
           git push --force
 #       # Runs a single command using the runners shell
