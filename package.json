@@ -4,6 +4,12 @@
   "description": "",
   "source": "src/index.html",
   "browserlist": "> 0.5%, last 2 versions, not dead",
+  "targets": {
+    "web": {
+      "context": "browser",
+      "publicUrl": "./"
+    }
+  },
   "scripts": {
     "serve": "parcel",
     "build": "parcel build"
