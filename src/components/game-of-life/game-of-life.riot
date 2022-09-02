@@ -1,0 +1,47 @@
+<game-of-life class="flex gap-1">
+    <!-- <template each={ row in state.gameState }>
+        <game-cell each={cell in row} alive={cell}></game-cell>
+    </template> -->
+    <div class="flex flex-col gap-1" each={ row in state.gameState }>
+        <game-cell each={cell in row} alive={cell}></game-cell>
+    </div>
+    <!-- <pre>{JSON.stringify(state.gameState)}</pre> -->
+    <script lang="ts">
+        import {createCells, processGameOfLife} from '../../utils/game-of-life'
+        import GameCell from './game-cell.riot'
+        const settings = {
+            surviveAdjacent: [2,3],
+            reproAdjacent: [3]
+        }
+        const tickMs = 200;
+        const size = [100,100]
+        export default {
+            state: {
+                gameState: [],
+                timeoutId: undefined
+            },
+            onBeforeMount(props, state) {
+                const tick = () => {
+                    this.update({
+                        gameState: processGameOfLife(settings, this.state.gameState),
+                        timeoutId: setTimeout(() => {
+                            tick()
+                        }, tickMs)
+                    })
+                }
+                this.state = {
+                    gameState: createCells(...size),
+                    timeoutId: setTimeout(() => {
+                        tick()
+                    }, tickMs)
+                }
+            },
+            onBeforeUnmount(props, state) {
+                clearTimeout(this.state.timeoutId)
+            },
+            components: {
+                GameCell
+            }
+        }
+    </script>
+</game-of-life>

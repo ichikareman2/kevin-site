@@ -1,13 +1,20 @@
 <main-banner>
-    <section class="flex mt-10">
-        <header-text>Kevin something!</header-text>
+    <section class="flex">
+        <component-background>
+            <game-of-life slot="background"></game-of-life>
+            <header-text>Kevin something!</header-text>
+        </component-background>
     </section>
 
     <script>
         import HeaderText from "../header-text/header-text.riot"
+        import GameOfLife from '../game-of-life/game-of-life.riot'
+        import ComponentBackground from "../component-background/component-background.riot"
         export default {
             components: {
-                HeaderText
+                HeaderText,
+                GameOfLife,
+                ComponentBackground
             }
         }
     </script>

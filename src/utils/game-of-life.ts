@@ -12,8 +12,7 @@ export const processGameOfLife = (
 settings: GameOfLifeSettings,
 cells: Cells
 ) => {
-const newCells: boolean[][] = cells.slice();
-newCells.map((x) => x.slice());
+const newCells: boolean[][] = cells.map((x) => x.slice());
 cells.forEach((xcells, xi) =>
     xcells.forEach((ycell, yi) => {
     newCells[xi][yi] = cells[xi][yi]
