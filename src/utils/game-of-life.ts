@@ -1,3 +1,5 @@
+import memoize from "./memoize";
+
 // import { fromPredicate, map, Option } from "fp-ts/lib/Option";
 export type GameOfLifeSettings = {
     /** number of cells adjacent for alive cell to survive */
@@ -30,40 +32,39 @@ const getMaxX = (cells: Cells) => cells.length;
 const getMaxY = (cells: Cells) => cells[0].length;
 // const getMaxXOpt = map(getMaxX)
 // const getMaxYOpt = map(getMaxY)
+const getAdjacentIndexes = memoize((x: number, y: number, maxX: number, maxY: number) => {
+    let startX = x - 1;
+    let startY = y - 1;
+    startX = startX < 0 ? maxX + startX : startX;
+    startY = startY < 0 ? maxY + startY : startY;
+    let adjacentIndexes: [number, number][] = [];
+    for (let xi = 0; xi < 3; xi++) {
+        for (let yi = 0; yi < 3; yi++) {
+        const currentX = (startX + xi) % maxX;
+        const currentY = (startY + yi) % maxY;
+        if (currentX === x && currentY === y) {
+            continue;
+        }
+            adjacentIndexes.push([currentX, currentY]);
+        }
+    }
+    return adjacentIndexes;
+})
 const getAdjacentValues = (x: number, y: number, cells: Cells) => {
-let startX = x - 1;
-let startY = y - 1;
-const maxX = getMaxX(cells);
-const maxY = getMaxY(cells);
-startX = startX < 0 ? maxX + startX : startX;
-startY = startY < 0 ? maxY + startY : startY;
-let adjacentValues: boolean[] = [];
-for (let xi = 0; xi < 3; xi++) {
-    for (let yi = 0; yi < 3; yi++) {
-    const currentX = (startX + xi) % maxX;
-    const currentY = (startY + yi) % maxY;
-    if (currentX === x && currentY === y) {
-        continue;
-    }
-    adjacentValues.push(cells[currentX][currentY]);
-    }
-}
-return adjacentValues;
+    const maxX = getMaxX(cells);
+    const maxY = getMaxY(cells);
+    let indexes = getAdjacentIndexes(x, y, maxX, maxY)
+    return indexes?.map(x => cells[x[0]][x[1]])
 };
-
-const checkSurvive = (surviveCounts: number[], adjacentValues: boolean[]) => {
-const aliveAdjacent = adjacentValues.reduce(
+const getAliveAdjacent = (adjacentValues: boolean[]) => adjacentValues.reduce(
     (acc, curr) => acc + (curr ? 1 : 0),
     0
 );
-return surviveCounts.some((x) => x === aliveAdjacent);
+const checkSurvive = (surviveCounts: number[], adjacentValues: boolean[]) => {
+    return surviveCounts.some((x) => x === getAliveAdjacent(adjacentValues));
 };
 const checkRepro = (reproCounts: number[], adjacentValues: boolean[]) => {
-const aliveAdjacent = adjacentValues.reduce(
-    (acc, curr) => acc + (curr ? 1 : 0),
-    0
-);
-return reproCounts.some((x) => x === aliveAdjacent);
+    return reproCounts.some((x) => x === getAliveAdjacent(adjacentValues));
 };
 
 export const createCells = (x: number, y: number) => {

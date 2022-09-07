@@ -5,6 +5,7 @@
 * game of life performance
   * try to investigate using firefox/chrome profiler
     * https://profiler.firefox.com/docs/#/./guide-ui-tour-timeline
+  * don't render cells out of screen (virtualization)
 * make flexible time for game of life
   * treat tick time to be a minimum amount of time before processing next state so that large of cell map will take 
 * color change for old cells
